@@ -12,39 +12,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.diegossilva.benefdoc.entity.Beneficiario;
-import com.diegossilva.benefdoc.repository.BeneficiarioRepository;
+import com.diegossilva.benefdoc.service.BeneficiarioService;
 
 @RestController
 @RequestMapping("/benefdoc/beneficiario")
 public class BeneficiarioRestController {
 	
 	@Autowired
-    private BeneficiarioRepository repo;
+	private BeneficiarioService service;
     
     @GetMapping("/{id}")
     public ResponseEntity<Beneficiario> resgateBeneficiarioPorId(@PathVariable Integer id){
-        return ResponseEntity.ok(repo.findById(id).get());
+        return ResponseEntity.ok(service.resgateBeneficiarioPorId(id));
     }
     
     @GetMapping("/todos")
     public ResponseEntity<List<Beneficiario>> resgateTodosBeneficiarios(){
-        return ResponseEntity.ok(repo.findAll());
+        return ResponseEntity.ok(service.resgateTodosBeneficiarios());
     }
     
     @PostMapping("/cadastrar")
     public Beneficiario cadastrarBeneficiario(@RequestBody Beneficiario beneficiario) {
-    	return repo.save(beneficiario);
+    	return service.cadastrarBeneficiario(beneficiario);
     }
     
     @PostMapping("/alterar/{id}")
     public ResponseEntity<Beneficiario> alterarBeneficiario(@PathVariable Integer id, @RequestBody Beneficiario beneficiario) {
-    	beneficiario.setId(id);
-        return ResponseEntity.ok(repo.save(beneficiario));
+    	return ResponseEntity.ok(service.alterarBeneficiario(id, beneficiario));
     }
 	
 	@PostMapping("/excluir/{id}")
     public void excluirBeneficiario(@PathVariable Integer id) {
-        repo.deleteById(id);
+        service.excluirBeneficiario(id);
     }
     
 }

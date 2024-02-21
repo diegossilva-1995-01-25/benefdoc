@@ -11,31 +11,24 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.diegossilva.benefdoc.entity.Beneficiario;
 import com.diegossilva.benefdoc.entity.Documento;
-import com.diegossilva.benefdoc.repository.BeneficiarioRepository;
-import com.diegossilva.benefdoc.repository.DocumentoRepository;
+import com.diegossilva.benefdoc.service.DocumentoService;
 
 @Controller
 @RequestMapping("/benefdoc/documento")
 public class DocumentoRestController {
 	
 	@Autowired
-    private DocumentoRepository docRepo;
-	
-	@Autowired
-	private BeneficiarioRepository benefRepo;
+	private DocumentoService service;
 	
 	@GetMapping("/{id}/todos") 
     public ResponseEntity<List<Documento>> resgateDocumentosPorBeneficiario(@PathVariable Integer id){
-        return ResponseEntity.ok(docRepo.findByBeneficiarioId(id));
+        return ResponseEntity.ok(service.resgateDocumentosPorBeneficiario(id));
     }
     
     @PostMapping("/{id}/cadastrar")
     public ResponseEntity<Documento> cadastrarBeneficiario(@RequestBody Documento documento, @PathVariable Integer id) {
-    	Beneficiario b = benefRepo.findById(id).get();
-    	documento.setBeneficiario(b);
-    	return ResponseEntity.ok(docRepo.save(documento));
+    	return ResponseEntity.ok(service.cadastrarBeneficiario(documento, id));
     }
 	
 }
