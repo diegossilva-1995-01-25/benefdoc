@@ -9,6 +9,7 @@ sendo elas:
 - Controladores;
 - Serviços;
 - Entidades.
+
 Além de usar Spring Security para autorização de acesso e JPA Hibernate para
 acesso ao banco de dados
 
